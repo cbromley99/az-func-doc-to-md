@@ -1,0 +1,4 @@
+azure-functions
+azure-storage-blob
+unstructured[all-docs]
+python-magic
