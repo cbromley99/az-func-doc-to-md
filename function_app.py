@@ -8,7 +8,7 @@ from azure.storage.blob import BlobServiceClient
 app = func.FunctionApp()
 
 @app.blob_trigger(arg_name="myblob", 
-                  path="input-files/{name}",
+                  path="incoming-docs/{name}",
                   connection="AzureWebJobsStorage")
 def BlobToMarkdown(myblob: func.InputStream):
     # Added a version tag so you can see the change in the logs
@@ -36,7 +36,7 @@ def BlobToMarkdown(myblob: func.InputStream):
         file_root = os.path.splitext(base_name)[0]
         output_filename = f"{file_root}.md"
 
-        blob_client = blob_service_client.get_blob_client(container="output-files", blob=output_filename)
+        blob_client = blob_service_client.get_blob_client(container="converted-md", blob=output_filename)
         blob_client.upload_blob(md_content, overwrite=True)
 
         logging.info(f"Successfully converted {myblob.name} to {output_filename}")
